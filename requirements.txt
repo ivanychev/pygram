@@ -1,0 +1,5 @@
+py==1.4.32
+pytest==3.0.5
+requests==2.12.5
+toolz==0.8.2
+tqdm==4.11.1
