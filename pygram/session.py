@@ -1,3 +1,11 @@
+"""
+Session class definition.
+
+Authors: Sergey Ivanychev, Daniil Okhlopkov
+Revision: 1
+"""
+
+
 import time
 import requests
 from . import config
@@ -38,21 +46,23 @@ class Session(object):
         self.session.cookies.update(config.BASE_COOKIE)
         self.session.headers.update(config.BASE_HEADER)
         answer = self.session.get(config.URL)
-        self.session.headers.update({'X-CSRFToken': answer.cookies['csrftoken']})
+        self.session.headers.update(
+            {'X-CSRFToken': answer.cookies['csrftoken']})
         time.sleep(1)
 
-    def _check_login(self, answer):
+    def _check_login(self, answer, username):
         """
         Checks, whether user is logged in correctly.
 
         - HTTP status must be 200
-        - Next answer from POST to https://www.instagram.com must contain USERNAME
+        - Next answer from POST to https://www.instagram.com must
+          contain USERNAME
         :param answer: response from logging in POST request
         :return: :bool: login status
         """
         if answer.status_code == HTTP_OK:
             answer = self.session.get(config.URL)
-            if answer.text.find(self.user_login) != -1:
+            if answer.text.find(username) != -1:
                 return True
             else:
                 self.log("Can't login: Invalid login or password.")
@@ -84,7 +94,7 @@ class Session(object):
             {'X-CSRFToken': answer.cookies['csrftoken']})
         self.cookie = answer.cookies['csrftoken']
         time.sleep(1)
-        self.logged = self._check_login(answer)
+        self.logged = self._check_login(answer, username)
         self.username = username
         return self.logged
 
@@ -94,7 +104,7 @@ class Session(object):
         :return: requests.get response
         """
         answer = requests.post(config.URL_LOGOUT,
-                        {'csrfmiddlewaretoken': self.cookie})
+                               {'csrfmiddlewaretoken': self.cookie})
         if answer:
             self.logged = False
         return answer
