@@ -7,7 +7,7 @@ setup(
   author = 'Sergey Ivanychev',
   author_email = 'sergeyivanychev@gmail.com',
   url = 'https://github.com/ivanychev/pygram',
-  download_url = 'https://github.com/ivanychev/pygram/0.0.1a',
+  download_url = 'https://github.com/ivanychev/pygram/tarball/0.0.1a',
   keywords = ['insta', 'instagram'],
   classifiers = [],
 )
