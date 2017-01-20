@@ -1,8 +1,7 @@
 language: python
 python:
   - "3.4"
-  - "3.5"
-  - "3.6"
+  - "2.7"
 before:
   pip install flake8
   pip install codecov
@@ -13,6 +12,6 @@ install: "pip install -r requirements.txt"
 before_script:
   - flake8 pygram/ tests/ setup.py
 script:
-  - py.test --cov=pygram tests/
+  - py.test --cov=. tests/ pygram/
 after_success:
   - codecov
